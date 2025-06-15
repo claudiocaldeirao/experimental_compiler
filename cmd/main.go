@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/claudiocaldeirao/experimental_compiler/internals/lexical"
-	"github.com/claudiocaldeirao/experimental_compiler/internals/reader"
-	"github.com/claudiocaldeirao/experimental_compiler/internals/semantic"
-	"github.com/claudiocaldeirao/experimental_compiler/internals/syntatic"
+	"github.com/claudiocaldeirao/experimental_compiler/internal/lexical"
+	"github.com/claudiocaldeirao/experimental_compiler/internal/reader"
+	"github.com/claudiocaldeirao/experimental_compiler/internal/semantic"
+	"github.com/claudiocaldeirao/experimental_compiler/internal/syntatic"
 )
 
 func main() {
@@ -18,7 +18,7 @@ func main() {
 
 	tokens := lexical.Tokenize(textBuffer)
 	for _, t := range tokens {
-		fmt.Printf("Token: %-10s Value: %s\n", t.Type, t.Value)
+		fmt.Printf("Token: %-10s Value: %s\n", t.Type, t.Lexeme)
 	}
 
 	// TODO
