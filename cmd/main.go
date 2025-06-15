@@ -16,6 +16,10 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("-------------------- Source Code --------------------")
+	fmt.Println(textBuffer)
+
+	fmt.Println("Running lexical analysis...")
 	lexer := lexical.NewLexer(textBuffer)
 	tokens := lexer.Tokenize()
 
@@ -24,9 +28,14 @@ func main() {
 		fmt.Printf("Token: %-10s Value: %s\n", t.Type, t.Lexeme)
 	}
 
+	fmt.Println("\nRunning syntactic analysis...")
 	syntacticParser := syntactic.NewParser(tokens)
-	syntacticParser.ParseProgram()
+	statements := syntacticParser.ParseProgram()
 
-	// TODO
-	semantic.Parse()
+	if statements == nil {
+		log.Fatal("Failed to parse source code")
+	}
+
+	semanticAnalyzer := semantic.NewSemanticAnalyzer(statements)
+	semanticAnalyzer.Analyze()
 }
