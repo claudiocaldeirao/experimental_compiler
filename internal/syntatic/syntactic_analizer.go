@@ -3,14 +3,14 @@ package syntatic
 import (
 	"fmt"
 
-	"github.com/claudiocaldeirao/experimental_compiler/internal/types"
+	"github.com/claudiocaldeirao/experimental_compiler/internal/token"
 )
 
-func NewParser(tokens []types.Token) *Parser {
+func NewParser(tokens []token.Token) *Parser {
 	return &Parser{tokens: tokens, pos: 0}
 }
 
-func (p *Parser) match(expected types.TokenType) bool {
+func (p *Parser) match(expected token.TokenType) bool {
 	if p.pos < len(p.tokens) && p.tokens[p.pos].Type == expected {
 		p.pos++
 		return true
@@ -18,32 +18,32 @@ func (p *Parser) match(expected types.TokenType) bool {
 	return false
 }
 
-func (p *Parser) current() types.Token {
+func (p *Parser) current() token.Token {
 	if p.pos < len(p.tokens) {
 		return p.tokens[p.pos]
 	}
-	return types.Token{Type: "EOF"}
+	return token.Token{Type: token.EOF}
 }
 
 // Command := ID '=' Expression ';'
 func (p *Parser) parseCommand() bool {
-	if !p.match("ID") {
+	if !p.match(token.IDENTIFIER) {
 		return false
 	}
-	if !p.match("ASSIGN") {
+	if !p.match(token.ASSIGN) {
 		return false
 	}
 	if !p.parseExpression() {
 		return false
 	}
-	return p.match("SEMICOLON")
+	return p.match(token.SEMICOLON)
 }
 
 // Expression := ID | NUM | ID op NUM
 func (p *Parser) parseExpression() bool {
-	if p.match("ID") || p.match("NUM") {
-		if p.match("PLUS") || p.match("MINUS") || p.match("MULTIPLY") || p.match("DIVIDE") {
-			return p.match("ID") || p.match("NUM")
+	if p.match(token.IDENTIFIER) || p.match(token.NUMBER) {
+		if p.match(token.PLUS) || p.match(token.MINUS) || p.match(token.MULTIPLY) || p.match(token.DIVIDE) {
+			return p.match(token.IDENTIFIER) || p.match(token.NUMBER)
 		}
 		return true
 	}
@@ -57,14 +57,14 @@ func (p *Parser) ParseProgram() bool {
 		return false
 	}
 
-	for p.current().Type != "END" && p.current().Type != "EOF" {
+	for p.current().Type != token.END && p.current().Type != token.EOF {
 		if !p.parseCommand() {
 			fmt.Println("Error parsing command near:", p.current().Lexeme)
 			return false
 		}
 	}
 
-	if !p.match("END") {
+	if !p.match(token.END) {
 		fmt.Println("Expected END")
 		return false
 	}

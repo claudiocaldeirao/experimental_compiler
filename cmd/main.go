@@ -21,7 +21,9 @@ func main() {
 		fmt.Printf("Token: %-10s Value: %s\n", t.Type, t.Lexeme)
 	}
 
+	syntaticParser := syntatic.NewParser(tokens)
+	syntaticParser.ParseProgram()
+
 	// TODO
-	syntatic.Parse()
 	semantic.Parse()
 }

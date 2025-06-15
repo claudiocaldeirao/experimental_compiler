@@ -1,8 +1,8 @@
 package syntatic
 
-import "github.com/claudiocaldeirao/experimental_compiler/internal/types"
+import "github.com/claudiocaldeirao/experimental_compiler/internal/token"
 
 type Parser struct {
-	tokens []types.Token
+	tokens []token.Token
 	pos    int
 }
