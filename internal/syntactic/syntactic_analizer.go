@@ -27,6 +27,39 @@ func (p *Parser) current() token.Token {
 
 // Command := ID '=' Expression ';'
 func (p *Parser) parseCommand() bool {
+	// Check if it's a 'print' command
+	if p.current().Type == token.PRINT {
+		p.pos++ // consume 'print'
+
+		// Parse expression after print
+		var exprTokens []token.Token
+		if p.match(token.IDENTIFIER) || p.match(token.NUMBER) {
+			exprTokens = append(exprTokens, p.tokens[p.pos-1])
+
+			if p.match(token.PLUS) || p.match(token.MINUS) || p.match(token.MULTIPLY) || p.match(token.DIVIDE) {
+				exprTokens = append(exprTokens, p.tokens[p.pos-1])
+				if p.match(token.IDENTIFIER) || p.match(token.NUMBER) {
+					exprTokens = append(exprTokens, p.tokens[p.pos-1])
+				} else {
+					return false
+				}
+			}
+		} else {
+			return false
+		}
+
+		if !p.match(token.SEMICOLON) {
+			return false
+		}
+
+		stmt := PrintStatement{
+			ExpressionTokens: exprTokens,
+		}
+		p.Statements = append(p.Statements, stmt)
+		return true
+	}
+
+	// Otherwise, assume it's an assignment
 	idToken := p.current()
 	if !p.match(token.IDENTIFIER) {
 		return false

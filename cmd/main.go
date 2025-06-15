@@ -42,7 +42,7 @@ func main() {
 		if assignOk {
 			fmt.Printf("Assign Statement: Variable: %s, Expression: %s\n", assignStatement.VarName, assignStatement.ExpressionTokens)
 		} else if printOk {
-			fmt.Printf("Print Statement: %s \n", printStatement.VarName)
+			fmt.Printf("Print Statement: Variable: %s, Expression: %s\n", printStatement.VarName, printStatement.ExpressionTokens)
 		} else {
 			fmt.Println("Unknown statement type in AST")
 		}

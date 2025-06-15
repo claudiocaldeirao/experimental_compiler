@@ -21,6 +21,15 @@ func GenerateJS(statements []syntactic.Statement) string {
 				builder.WriteString(t.Lexeme)
 			}
 			builder.WriteString(";\n")
+		case syntactic.PrintStatement:
+			builder.WriteString("console.log(")
+			for i, t := range s.ExpressionTokens {
+				if i > 0 {
+					builder.WriteString(" ")
+				}
+				builder.WriteString(t.Lexeme)
+			}
+			builder.WriteString(");\n")
 		}
 	}
 

@@ -16,5 +16,6 @@ type AssignStatement struct {
 }
 
 type PrintStatement struct {
-	VarName string
+	VarName          string
+	ExpressionTokens []token.Token
 }
