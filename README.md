@@ -12,11 +12,15 @@ experimental_compiler/
 │   └── main.go
 ├── internals/
 │   ├── lexical/
-│   │   └── lexical_analyzer.go   # Lexer (tokenizer)
+│   │   └── lexical_analyzer.go     # Lexer (tokenizer)
 │   ├── syntactic/
-│   │   └── syntatic_analyzer.go  # Parser (syntax validator)
+│   │   └── syntactic_analyzer.go   # Parser (syntax validator)
 │   ├── semantic/
-│   │   └── semantic_analyzer.go
+│   │   └── semantic_analyzer.go    # Semantic Analyzer (e.g: check unused / used before declaration)
+│   ├── reader/
+│   │   └── reader.go               # Reads the source code file (using made up extension .cdl that extend for CaldeiLang, our example pseudo-code)
+│   ├── generator/
+│   │   └── generator.go            # Generate target language (in our example, JS)
 ├── go.mod
 ├── README.md
 ```
