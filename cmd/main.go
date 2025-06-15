@@ -7,7 +7,7 @@ import (
 	"github.com/claudiocaldeirao/experimental_compiler/internal/lexical"
 	"github.com/claudiocaldeirao/experimental_compiler/internal/reader"
 	"github.com/claudiocaldeirao/experimental_compiler/internal/semantic"
-	"github.com/claudiocaldeirao/experimental_compiler/internal/syntatic"
+	"github.com/claudiocaldeirao/experimental_compiler/internal/syntactic"
 )
 
 func main() {
@@ -16,13 +16,16 @@ func main() {
 		log.Fatal(err)
 	}
 
-	tokens := lexical.Tokenize(textBuffer)
+	lexer := lexical.NewLexer(textBuffer)
+	tokens := lexer.Tokenize()
+
+	fmt.Println("-------------------- Token Table --------------------")
 	for _, t := range tokens {
 		fmt.Printf("Token: %-10s Value: %s\n", t.Type, t.Lexeme)
 	}
 
-	syntaticParser := syntatic.NewParser(tokens)
-	syntaticParser.ParseProgram()
+	syntacticParser := syntactic.NewParser(tokens)
+	syntacticParser.ParseProgram()
 
 	// TODO
 	semantic.Parse()

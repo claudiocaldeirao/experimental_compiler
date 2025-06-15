@@ -1,4 +1,4 @@
-package syntatic
+package syntactic
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package syntatic
+package syntactic
 
 import "github.com/claudiocaldeirao/experimental_compiler/internal/token"
 

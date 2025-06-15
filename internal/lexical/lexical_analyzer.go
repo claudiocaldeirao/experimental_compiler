@@ -6,12 +6,16 @@ import (
 	"github.com/claudiocaldeirao/experimental_compiler/internal/token"
 )
 
-func Tokenize(source string) []token.Token {
+func NewLexer(input string) *Lexer {
+	return &Lexer{source: input}
+}
+
+func (l *Lexer) Tokenize() []token.Token {
 	var tokens []token.Token
 	var pos int
 
-	for pos < len(source) {
-		ch := source[pos]
+	for pos < len(l.source) {
+		ch := l.source[pos]
 
 		if isWhitespace(ch) {
 			pos++
@@ -20,10 +24,10 @@ func Tokenize(source string) []token.Token {
 
 		if isLetter(ch) {
 			start := pos
-			for pos < len(source) && isLetterOrDigit(source[pos]) {
+			for pos < len(l.source) && isLetterOrDigit(l.source[pos]) {
 				pos++
 			}
-			lexeme := source[start:pos]
+			lexeme := l.source[start:pos]
 			tokType, ok := Keywords[lexeme]
 			if !ok {
 				tokType = token.IDENTIFIER
@@ -34,16 +38,16 @@ func Tokenize(source string) []token.Token {
 
 		if isDigit(ch) {
 			start := pos
-			for pos < len(source) && isDigit(source[pos]) {
+			for pos < len(l.source) && isDigit(l.source[pos]) {
 				pos++
 			}
-			lexeme := source[start:pos]
+			lexeme := l.source[start:pos]
 			tokens = append(tokens, token.Token{Type: token.NUMBER, Lexeme: lexeme})
 			continue
 		}
 
-		if pos+1 < len(source) {
-			twoChar := source[pos : pos+2]
+		if pos+1 < len(l.source) {
+			twoChar := l.source[pos : pos+2]
 			if tokType, ok := Symbols[twoChar]; ok {
 				tokens = append(tokens, token.Token{Type: tokType, Lexeme: twoChar})
 				pos += 2
