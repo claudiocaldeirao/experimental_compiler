@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
+	"github.com/claudiocaldeirao/experimental_compiler/internal/generator"
 	"github.com/claudiocaldeirao/experimental_compiler/internal/lexical"
 	"github.com/claudiocaldeirao/experimental_compiler/internal/reader"
 	"github.com/claudiocaldeirao/experimental_compiler/internal/semantic"
@@ -30,10 +32,10 @@ func main() {
 
 	fmt.Println("\nRunning syntactic analysis...")
 	syntacticParser := syntactic.NewParser(tokens)
-	statements := syntacticParser.ParseProgram()
+	ast := syntacticParser.ParseProgram()
 
 	fmt.Println("-------------------- Abstract Syntax Tree (AST) --------------------")
-	for _, interfaceStatement := range statements {
+	for _, interfaceStatement := range ast {
 		assignStatement, assignOk := interfaceStatement.(syntactic.AssignStatement)
 		printStatement, printOk := interfaceStatement.(syntactic.PrintStatement)
 
@@ -47,11 +49,18 @@ func main() {
 
 	}
 
-	if statements == nil {
+	if ast == nil {
 		log.Fatal("Failed to parse source code")
 	}
 
 	fmt.Println("\nRunning semantic analysis...")
-	semanticAnalyzer := semantic.NewSemanticAnalyzer(statements)
+	semanticAnalyzer := semantic.NewSemanticAnalyzer(ast)
 	semanticAnalyzer.Analyze()
+
+	fmt.Println("\nGenerating JavaScript code...")
+	compiledCode := generator.GenerateJS(ast)
+	fmt.Println("-------------------- Compiled Code --------------------")
+	fmt.Println(compiledCode)
+
+	os.WriteFile("index.js", []byte(compiledCode), 0644)
 }
