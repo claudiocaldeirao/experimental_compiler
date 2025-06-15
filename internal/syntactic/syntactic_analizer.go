@@ -58,7 +58,7 @@ func (p *Parser) parseCommand() bool {
 	}
 
 	// Add statement to the AST
-	stmt := AssignStmt{
+	stmt := AssignStatement{
 		VarName:          idToken.Lexeme,
 		ExpressionTokens: exprTokens,
 	}

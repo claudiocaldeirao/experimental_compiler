@@ -17,16 +17,16 @@ func NewSemanticAnalyzer(statements []syntactic.Statement) *SemanticAnalyzer {
 func (s *SemanticAnalyzer) Analyze() {
 	for _, stmt := range s.Statements {
 		switch node := stmt.(type) {
-		case syntactic.AssignStmt:
+		case syntactic.AssignStatement:
 			s.handleAssignment(node)
-		case syntactic.PrintStmt:
+		case syntactic.PrintStatement:
 			s.handleUsage(node.VarName)
 		}
 	}
 	s.checkUnused()
 }
 
-func (s *SemanticAnalyzer) handleAssignment(stmt syntactic.AssignStmt) {
+func (s *SemanticAnalyzer) handleAssignment(stmt syntactic.AssignStatement) {
 	/// Mark the variable as declared
 	if _, exists := s.Variables[stmt.VarName]; !exists {
 		s.Variables[stmt.VarName] = &Variable{Name: stmt.VarName}

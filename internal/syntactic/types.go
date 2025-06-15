@@ -10,11 +10,11 @@ type Parser struct {
 
 type Statement interface{}
 
-type AssignStmt struct {
+type AssignStatement struct {
 	VarName          string
 	ExpressionTokens []token.Token
 }
 
-type PrintStmt struct {
+type PrintStatement struct {
 	VarName string
 }
