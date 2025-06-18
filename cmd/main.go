@@ -34,6 +34,10 @@ func main() {
 	syntacticParser := syntactic.NewParser(tokens)
 	ast := syntacticParser.ParseProgram()
 
+	if ast == nil {
+		log.Fatal("Failed to parse source code")
+	}
+
 	fmt.Println("-------------------- Abstract Syntax Tree (AST) --------------------")
 	for _, interfaceStatement := range ast {
 		assignStatement, assignOk := interfaceStatement.(syntactic.AssignStatement)
@@ -47,10 +51,6 @@ func main() {
 			fmt.Println("Unknown statement type in AST")
 		}
 
-	}
-
-	if ast == nil {
-		log.Fatal("Failed to parse source code")
 	}
 
 	fmt.Println("\nRunning semantic analysis...")
