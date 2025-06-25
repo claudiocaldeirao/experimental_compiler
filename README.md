@@ -43,14 +43,7 @@ experimental_compiler/
 
 ## 🚀 Getting Started
 
-Clone the repository:
-
-```bash
-git clone https://github.com/yourusername/caldalang.git
-cd caldalang
-```
-
-Run the compiler:
+Clone the repository and run the compiler with:
 
 ```bash
 go run ./cmd/main.go
